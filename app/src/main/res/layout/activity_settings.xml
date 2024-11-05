@@ -7,10 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".Settings">
 
-<!--    <Spinner-->
-<!--        android:id="@+id/"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="parent"/>-->
+    <Spinner
+        android:id="@+id/item1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
