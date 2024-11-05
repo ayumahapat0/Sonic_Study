@@ -1,5 +1,6 @@
 package com.cs407.sonicstudy
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.settings -> {
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Settings::class.java)
+                startActivity(intent)
                 return true
             }
             R.id.study -> {
