@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,14 @@ class MainActivity : AppCompatActivity() {
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
 //            insets
 //        }
+
+        val addTermButton = findViewById<Button>(R.id.button)
+
+        addTermButton.setOnClickListener {
+            val intent = Intent(this, AddTerm::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
