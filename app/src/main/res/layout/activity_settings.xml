@@ -7,10 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".Settings">
 
-<!--    <Spinner-->
-<!--        android:id="@+id/"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="parent"/>-->
+    <Spinner
+        android:id="@+id/numDecks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="parent" />
+    <Spinner
+        android:id="@+id/studyLimit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/numDecks" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
