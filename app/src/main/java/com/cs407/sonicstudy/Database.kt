@@ -12,7 +12,7 @@ class Database {
         private const val USERNAME = "admin"
         private const val PASSWORD = "ui3cBo6mRwcaXDEMo8OD"
 
-        fun connectDatabase(): java.sql.Connection? {
+        fun connectDatabase(): Connection? {
             val URL = "jdbc:mysql://$HOST:$PORT/$DATABASE_NAME"
             return DriverManager.getConnection(URL, USERNAME, PASSWORD)
         }
