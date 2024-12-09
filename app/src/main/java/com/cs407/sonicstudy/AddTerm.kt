@@ -28,7 +28,7 @@ class AddTerm : AppCompatActivity() {
         }
 
         defButton.setOnClickListener{ view: View? ->
-        voiceInput("Definition")
+            voiceInput("Definition")
         }
     }
 
@@ -71,7 +71,6 @@ class AddTerm : AppCompatActivity() {
     ){ activityResult ->
         if (activityResult.resultCode == RESULT_OK){
             val result = activityResult.data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-
             defText.append(result!![0])
         }
     }
