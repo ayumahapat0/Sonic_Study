@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.SonicStudy" parent="Base.Theme.SonicStudy" />
+    <style name="Theme.SonicStudy.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.SonicStudy.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.SonicStudy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
