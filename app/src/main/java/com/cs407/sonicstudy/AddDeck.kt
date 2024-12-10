@@ -10,20 +10,27 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatActivity.RESULT_OK
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AddDeck : AppCompatActivity()  {
     private lateinit var deckText: TextView
     private lateinit var deck: String
     private var deckDone: Boolean = false
+
     private fun saveIntoDatabase() {
         if (deckDone) {
-            try {
-                val database = Database()
-                val columns = ArrayList<String>()
-                database.createTable(deck, columns, primaryKey = "String")
-                Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT).show()
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val database = Database()
+                    val columns = ArrayList<String>()
+                    database.createTable(deck, columns, primaryKey = "String")
+                    //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
+                    //    .show()
+                }
             }
         } else {
             Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT).show()
