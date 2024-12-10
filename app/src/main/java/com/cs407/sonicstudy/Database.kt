@@ -1,7 +1,10 @@
 package com.cs407.sonicstudy
+import android.util.Log
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.sql.Statement
 
 class Database {
@@ -12,9 +15,17 @@ class Database {
         private const val USERNAME = "admin"
         private const val PASSWORD = "ui3cBo6mRwcaXDEMo8OD"
 
-        fun connectDatabase(): Connection? {
-            val URL = "jdbc:mysql://$HOST:$PORT/$DATABASE_NAME"
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD)
+        suspend fun connectDatabase(): Connection? {
+            return withContext(Dispatchers.IO) {
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver")
+                    val URL = "jdbc:mysql://$HOST:$PORT/$DATABASE_NAME"
+                    DriverManager.getConnection(URL, USERNAME, PASSWORD)
+                } catch (e: SQLException) {
+                    Log.e("Database", "Error connecting to the database: ${e.message}")
+                    null
+                }
+            }
         }
     }
 
@@ -25,34 +36,34 @@ class Database {
     //    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     // TODO: Add a success message if the table is created successfully
     //);
-    fun createTable(tableName: String, columns: List<String>, primaryKey: String) {
+    suspend fun createTable(tableName: String, columns: List<String>, primaryKey: String) {
         val connection = ConnectionToDB.connectDatabase()
         val statement = connection?.createStatement()
         val columnDefinitions = columns.joinToString(", ")
         val query = "CREATE TABLE IF NOT EXISTS $tableName ($columnDefinitions, PRIMARY KEY ($primaryKey))"
-        println(query)
-
+        Log.e("Database", "Query: $query")
         statement?.executeUpdate(query)
         statement?.close()
         connection?.close()
     }
 
-    fun insertData(tableName: String, question: String, answer: String) {
+    suspend fun insertData(tableName: String, question: String, answer: String) {
         val connection = ConnectionToDB.connectDatabase()
         val statement = connection?.createStatement()
         val query = "INSERT INTO $tableName (question, answer) VALUES ('$question', '$answer')"
+        Log.d("Database", "Query: $query")
         statement?.executeUpdate(query)
         statement?.close()
         connection?.close()
     }
 
-    fun deleteData(tableName: String, condition: String) {
+    suspend fun deleteData(tableName: String, condition: String) {
         val connection = ConnectionToDB.connectDatabase()
         val statement = connection?.createStatement()
         val query = "DELETE FROM $tableName WHERE $condition"
     }
 
-    fun updateData(tableName: String, question: String, answer: String, condition: String) {
+    suspend fun updateData(tableName: String, question: String, answer: String, condition: String) {
         val connection = ConnectionToDB.connectDatabase()
         val statement = connection?.createStatement()
         val query = "UPDATE $tableName SET question = '$question', answer = '$answer' WHERE $condition"
@@ -62,7 +73,7 @@ class Database {
         connection?.close()
     }
 
-    fun retrieveData(tableName: String, condition: String): List<Map<String, Any>> {
+    suspend fun retrieveData(tableName: String, condition: String): List<Map<String, Any>> {
         val connection = ConnectionToDB.connectDatabase()
         val statement = connection?.createStatement()
         val query = "SELECT * FROM $tableName WHERE $condition"
@@ -87,7 +98,7 @@ class Database {
         return data
     }
 
-    fun deleteTable(tableName: String) {
+    suspend fun deleteTable(tableName: String) {
         val connection = ConnectionToDB.connectDatabase()
         val statement = connection?.createStatement()
         val query = "DROP TABLE IF EXISTS $tableName"

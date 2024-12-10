@@ -11,6 +11,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.cs407.sonicstudy.Database
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 class AddTerm : AppCompatActivity() {
     private lateinit var termText: TextView
@@ -22,16 +25,20 @@ class AddTerm : AppCompatActivity() {
     private var defDone: Boolean = false
     private fun saveIntoDatabase() {
         if (termDone && defDone) {
-            try {
-                val database = Database()
-                database.insertData(deck, question, answer)
-                Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT).show()
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val database = Database()
+                    database.insertData(deck, question, answer)
+                    //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
+                    //    .show()
+                }
             }
-        } else {
-            Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT).show()
-        }
+            } else {
+                Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT)
+                    .show()
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
