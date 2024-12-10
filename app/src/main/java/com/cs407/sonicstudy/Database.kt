@@ -19,10 +19,11 @@ class Database {
             return withContext(Dispatchers.IO) {
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver")
-                    val URL = "jdbc:mysql://$HOST:$PORT/$DATABASE_NAME"
+                    val URL = "jdbc:mysql://$HOST:$PORT/?user=$USERNAME"
                     DriverManager.getConnection(URL, USERNAME, PASSWORD)
                 } catch (e: SQLException) {
                     Log.e("Database", "Error connecting to the database: ${e.message}")
+                    e.printStackTrace()
                     null
                 }
             }
@@ -48,13 +49,20 @@ class Database {
     }
 
     suspend fun insertData(tableName: String, question: String, answer: String) {
-        val connection = ConnectionToDB.connectDatabase()
-        val statement = connection?.createStatement()
-        val query = "INSERT INTO $tableName (question, answer) VALUES ('$question', '$answer')"
-        Log.d("Database", "Query: $query")
-        statement?.executeUpdate(query)
-        statement?.close()
-        connection?.close()
+        try {
+            val connection = ConnectionToDB.connectDatabase()
+            println("Connection was successful")
+            val statement = connection?.createStatement()
+            val query = "INSERT INTO $tableName (question, answer) VALUES ('$question', '$answer')"
+            Log.d("Database", "Query: $query")
+            statement?.executeUpdate(query)
+            statement?.close()
+            connection?.close()
+        }catch (e: SQLException){
+            Log.e("Database", "Error connecting to the database: ${e.message}")
+            e.printStackTrace()
+            null
+        }
     }
 
     suspend fun deleteData(tableName: String, condition: String) {

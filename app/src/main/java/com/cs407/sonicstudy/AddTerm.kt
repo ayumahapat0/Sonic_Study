@@ -28,11 +28,12 @@ class AddTerm : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     val database = Database()
-                    database.insertData(deck, question, answer)
+                    database.insertData("history_deck", question, answer)
                     //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
                 } catch (e: Exception) {
                     //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
                     //    .show()
+                    e.printStackTrace()
                 }
             }
             } else {
