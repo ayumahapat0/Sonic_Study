@@ -64,7 +64,8 @@ class DecksHome : AppCompatActivity() {
             }
 
             delButton.setOnClickListener() {
-
+                val intent = Intent(this, DeleteDeck::class.java)
+                startActivity(intent)
             }
 
         val deckRV = findViewById<RecyclerView>(R.id.RVDecks)
