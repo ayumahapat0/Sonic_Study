@@ -1,62 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Flashcard Text -->
     <TextView
         android:id="@+id/flashcards"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        android:padding="16dp"
-        android:gravity="center"
-        android:text="Flashcard Text"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"
         android:background="@drawable/flashcard_style"
-        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:padding="16dp"
+        android:hint="@string/flashcard_text"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@id/show_answer_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Show Answer Button -->
     <Button
         android:id="@+id/show_answer_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show Answer"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/show_ans"
         app:layout_constraintBottom_toTopOf="@id/nav_buttons"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Navigation Buttons -->
     <LinearLayout
         android:id="@+id/nav_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_margin="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/prev_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Previous" />
+            android:text="@string/prev_q" />
 
         <Button
             android:id="@+id/next_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginStart="16dp"
-            android:text="Next" />
+            android:layout_weight="1"
+            android:text="@string/next_q" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
