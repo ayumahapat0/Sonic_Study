@@ -1,6 +1,7 @@
 package com.cs407.sonicstudy
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -18,6 +19,9 @@ interface ApiService {
 
     @POST("/retrieve_data")
     fun retrieveData(@Body request: DataModels.RetrieveDataRequest): Call<List<Map<String, Any>>>
+
+    @POST("retrieve_tables")
+    fun retrieveTables(): Call<List<String>>
 
     @POST("/delete_table")
     fun deleteTable(@Body request: Map<String, String>): Call<DataModels.ApiResponse>

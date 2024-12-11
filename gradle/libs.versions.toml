@@ -11,6 +11,7 @@ material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 mysqlConnectorJava = "8.0.33"
+retrofit = "2.9.0"
 sdkcoroutines = "1.0.0"
 kotlinxCoroutinesCore = "1.9.0"
 kotlinxCoroutinesAndroid = "1.9.0"
@@ -18,6 +19,7 @@ kotlinxCoroutinesAndroid = "1.9.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 aws-mysql-jdbc = { module = "software.aws.rds:aws-mysql-jdbc", version.ref = "awsMysqlJdbc" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -26,6 +28,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 mysql-connector-java = { module = "mysql:mysql-connector-java", version.ref = "mysqlConnectorJava" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 sdkcoroutines = { group = "com.google.android.libraries.sdkcoroutines", name = "sdkcoroutines", version.ref = "sdkcoroutines" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }

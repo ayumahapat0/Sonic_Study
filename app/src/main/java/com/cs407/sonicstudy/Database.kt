@@ -38,8 +38,6 @@ class DataModels {
         val tableName: String
     )
 
-
-
     data class ApiResponse(
         val message: String,
         val error: String?
