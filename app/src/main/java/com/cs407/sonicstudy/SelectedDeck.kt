@@ -63,6 +63,10 @@ class SelectedDeck : AppCompatActivity() {
         // Initialize the adapter here so we can update it later
         val entryAdapter = EntryAdapter(this, ArrayList()) { clickedTerm ->
             Toast.makeText(this, "Clicked on: ${clickedTerm.get_term()}", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(this, ModifyDeleteTerm::class.java)
+            intent.putExtra("ModifyDeleteTerm", clickedTerm.get_term())
+            startActivity(intent)
         }
 
         // Set up RecyclerView with LayoutManager and empty adapter first
