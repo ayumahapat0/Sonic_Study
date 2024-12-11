@@ -1,5 +1,6 @@
 package com.cs407.sonicstudy
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -40,7 +41,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when (item.itemId){
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, DecksHome::class.java)
+                startActivity(intent)
                 return true
             }
             R.id.settings -> {
@@ -50,10 +52,24 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.study -> {
-                Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
-                return true
+                showDeckSelectionDialog()
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showDeckSelectionDialog() {
+        val decks = arrayOf("Deck 1", "Deck 2", "Deck 3") // Hardcoded deck names
+        AlertDialog.Builder(this)
+            .setTitle("Choose a Deck to Study")
+            .setItems(decks) { _, which ->
+                val selectedDeck = decks[which]
+                val intent = Intent(this, FlashcardActivity::class.java)
+                intent.putExtra("DECK_NAME", selectedDeck)
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 }
