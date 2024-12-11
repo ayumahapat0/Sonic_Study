@@ -12,10 +12,10 @@ interface ApiService {
     fun insertData(@Body request: DataModels.InsertDataRequest): Call<DataModels.ApiResponse>
 
     @POST("/delete_data")
-    fun deleteData(@Body request: Map<String, String>): Call<DataModels.ApiResponse> // For dynamic conditions
+    fun deleteData(@Body request: DataModels.DeleteDataRequest): Call<DataModels.ApiResponse> // For dynamic conditions
 
     @POST("/update_data")
-    fun updateData(@Body request: Map<String, String>): Call<DataModels.ApiResponse>
+    fun updateData(@Body request: DataModels.UpdateDataRequest): Call<DataModels.ApiResponse>
 
     @POST("/retrieve_data")
     fun retrieveData(@Body request: DataModels.RetrieveDataRequest): Call<List<Map<String, Any>>>

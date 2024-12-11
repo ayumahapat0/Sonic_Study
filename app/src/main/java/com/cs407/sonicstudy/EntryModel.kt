@@ -1,6 +1,6 @@
 package com.cs407.sonicstudy
 
-class EntryModel(private var term: String, private var definition: String) {
+class EntryModel(private var term: String, private var definition: String, private var id: String) {
     // Getter and Setter
     fun get_term(): String {
         return term
@@ -16,5 +16,13 @@ class EntryModel(private var term: String, private var definition: String) {
 
     fun set_definition(defText: String){
         this.definition = defText
+    }
+
+    fun get_id(): String {
+        return id
+    }
+
+    fun set_id(termId: String) {
+        this.id = termId
     }
 }
