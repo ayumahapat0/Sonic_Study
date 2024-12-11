@@ -17,7 +17,7 @@ class DecksAdapter(private val context: Context, decksModelArrayList: ArrayList<
     }
 
     override fun onBindViewHolder(holder: DecksAdapter.ViewHolder, position: Int) {
-        // to set data to textview and imageview of each card layout
+        // to set data to textview of each card layout
         val model: DeckModel = decksModelArrayList[position]
         holder.deckName.setText(model.get_deck_name())
     }
@@ -27,7 +27,7 @@ class DecksAdapter(private val context: Context, decksModelArrayList: ArrayList<
         return decksModelArrayList.size
     }
 
-    // View holder class for initializing of your views such as TextView and Imageview.
+    // View holder class for initializing of your views such as TextView.
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val deckName: TextView
         init {

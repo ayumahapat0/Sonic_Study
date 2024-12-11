@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId){
             R.id.decks -> {
                 Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, DecksHome::class.java)
+                startActivity(intent)
                 return true
             }
             R.id.settings -> {
