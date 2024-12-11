@@ -70,23 +70,21 @@ class AddTerm : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when (item.itemId){
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DecksHome::class.java)
                 startActivity(intent)
                 return true
             }
             R.id.settings -> {
-//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, Settings::class.java)
                 startActivity(intent)
                 return true
             }
             R.id.study -> {
-                Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, SelectDeck::class.java)
+                startActivity(intent)
                 return true
             }
             R.id.action_home -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 return true

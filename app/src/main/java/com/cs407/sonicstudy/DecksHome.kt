@@ -28,13 +28,11 @@ class DecksHome : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected:", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DecksHome::class.java)
                 startActivity(intent)
                 return true
             }
             R.id.settings -> {
-//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, Settings::class.java)
                 startActivity(intent)
                 return true

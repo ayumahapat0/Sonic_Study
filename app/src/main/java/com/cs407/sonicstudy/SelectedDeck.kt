@@ -31,13 +31,13 @@ class SelectedDeck : AppCompatActivity() {
                 return true
             }
             R.id.settings -> {
-//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, Settings::class.java)
                 startActivity(intent)
                 return true
             }
             R.id.study -> {
-                Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, SelectDeck::class.java)
+                startActivity(intent)
                 return true
             }
             R.id.action_home -> {
