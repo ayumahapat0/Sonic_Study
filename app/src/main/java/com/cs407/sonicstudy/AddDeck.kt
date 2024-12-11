@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -51,6 +53,39 @@ class AddDeck : AppCompatActivity()  {
                 })
         } else {
             Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+        return when (item.itemId){
+            R.id.decks -> {
+                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, DecksHome::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.settings -> {
+//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Settings::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.study -> {
+                Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            R.id.action_home -> {
+                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
