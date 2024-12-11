@@ -37,7 +37,6 @@ class ModifyDeleteTerm : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when (item.itemId){
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DecksHome::class.java)
                 startActivity(intent)
                 return true
@@ -53,7 +52,6 @@ class ModifyDeleteTerm : AppCompatActivity() {
                 return true
             }
             R.id.action_home -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 return true
@@ -110,11 +108,16 @@ class ModifyDeleteTerm : AppCompatActivity() {
                 response: Response<DataModels.ApiResponse>
             ) {
                 if (response.isSuccessful){
-                    Log.d("API", "WOW IT DELETED IT!")
+                    Toast.makeText(this@ModifyDeleteTerm, "Entry has been deleted!", Toast.LENGTH_SHORT).show()
+                    Log.d("API", "deleted term!")
+                }else{
+                    Toast.makeText(this@ModifyDeleteTerm, "Something went wrong trying to delete this entry! Try Again!", Toast.LENGTH_SHORT).show()
+                    Log.d("API", "Error: {${response.errorBody()?.toString()}}")
                 }
             }
 
             override fun onFailure(call: Call<DataModels.ApiResponse>, t: Throwable) {
+                Toast.makeText(this@ModifyDeleteTerm, "Something went wrong trying to delete this entry! Try Again!", Toast.LENGTH_SHORT).show()
                 Log.d("API", "Failure: ${t.message}")
             }
 
@@ -132,11 +135,16 @@ class ModifyDeleteTerm : AppCompatActivity() {
                 response: Response<DataModels.ApiResponse>
             ) {
                 if (response.isSuccessful){
-                   Log.d("API", "WOW IT WORKS")
+                    Toast.makeText(this@ModifyDeleteTerm, "Entry has been updated!", Toast.LENGTH_SHORT).show()
+                    Log.d("API", "entry has been updated")
+                }else{
+                    Toast.makeText(this@ModifyDeleteTerm, "Something went wrong updating this entry! Try Again!", Toast.LENGTH_SHORT).show()
+                    Log.d("API", "Error: {${response.errorBody()?.toString()}" )
                 }
             }
 
             override fun onFailure(call: Call<DataModels.ApiResponse>, t: Throwable) {
+                Toast.makeText(this@ModifyDeleteTerm, "Something went wrong updating this entry! Try Again!", Toast.LENGTH_SHORT).show()
                 Log.d("API", "Failure: ${t.message}")
             }
 

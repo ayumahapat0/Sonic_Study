@@ -74,9 +74,12 @@ class MainActivity : AppCompatActivity() {
                         deckAdapter.updateData(deckModelArrayList)
                         Toast.makeText(this@MainActivity, "Received Decks!", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(this@MainActivity, "No Decks currently stored! Start By Adding a Deck!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "No Decks currently stored! Start by adding a Deck!", Toast.LENGTH_SHORT).show()
                         Log.d("API", "No Tables Received")
                     }
+                }else{
+                    Toast.makeText(this@MainActivity, "Error Receiving Decks. Try Again!", Toast.LENGTH_SHORT).show()
+                    Log.e("API", "Error: {${response.errorBody()?.toString()}}")
                 }
             }
 

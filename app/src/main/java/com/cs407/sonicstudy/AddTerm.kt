@@ -47,11 +47,13 @@ class AddTerm : AppCompatActivity() {
                                 Log.d("API", "Inserted Data properly")
                                 Toast.makeText(this@AddTerm, "Entry has been added!", Toast.LENGTH_SHORT).show()
                             }else{
+                                Toast.makeText(this@AddTerm, "Entry wasn't added! Try Again!", Toast.LENGTH_SHORT).show()
                                 Log.e("API", "ERROR: ${response.errorBody()?.string()}")
                             }
                         }
 
                         override fun onFailure(call: Call<DataModels.ApiResponse>, t: Throwable) {
+                            Toast.makeText(this@AddTerm, "Failed to Add Entry! Try Again!", Toast.LENGTH_SHORT).show()
                             Log.d("API", "Failure: ${t.message}")
                         }
 
@@ -132,7 +134,7 @@ class AddTerm : AppCompatActivity() {
                 "Definition" -> definitionLauncher.launch(intent)
             }
         } catch (e: Exception) {
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Something went wrong launching this activity! Try Again!", Toast.LENGTH_SHORT).show()
             Log.e("ModifyDeleteTerm", "Error in voiceInput: ${e.message}", e)
         }
     }

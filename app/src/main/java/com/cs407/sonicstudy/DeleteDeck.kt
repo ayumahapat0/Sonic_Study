@@ -35,13 +35,16 @@ class DeleteDeck : AppCompatActivity()  {
                         response: Response<DataModels.ApiResponse>
                     ) {
                         if (response.isSuccessful) {
+                            Toast.makeText(this@DeleteDeck, "Deck has been deleted!", Toast.LENGTH_SHORT).show()
                             Log.d("API", "Created Table Properly")
                         }else{
+                            Toast.makeText(this@DeleteDeck, "No Deck to be deleted!", Toast.LENGTH_SHORT).show()
                             Log.e("API", "ERROR: ${response.errorBody()?.string()}")
                         }
                     }
 
                     override fun onFailure(call: Call<DataModels.ApiResponse>, t: Throwable) {
+                        Toast.makeText(this@DeleteDeck, "Error trying to delete deck! Try Again!", Toast.LENGTH_SHORT).show()
                         Log.d("API", "Failure: ${t.message}")
                     }
 
@@ -59,7 +62,6 @@ class DeleteDeck : AppCompatActivity()  {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when (item.itemId){
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DecksHome::class.java)
                 startActivity(intent)
                 return true
@@ -75,7 +77,6 @@ class DeleteDeck : AppCompatActivity()  {
                 return true
             }
             R.id.action_home -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 return true
@@ -115,7 +116,7 @@ class DeleteDeck : AppCompatActivity()  {
         try {
             deckVal.launch(intent)
         } catch (e: Exception) {
-            Toast.makeText(this, "" + e.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Something went wrong launching this activity! Try Again!", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -128,6 +129,8 @@ class DeleteDeck : AppCompatActivity()  {
             deckText.text = result!![0]
             deck = result[0]
             deckDone = true
+        }else{
+            Toast.makeText(this, "No result captured", Toast.LENGTH_SHORT).show()
         }
     }
 }

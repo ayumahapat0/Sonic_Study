@@ -25,7 +25,6 @@ class SelectedDeck : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when (item.itemId){
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DecksHome::class.java)
                 startActivity(intent)
                 return true
@@ -41,7 +40,6 @@ class SelectedDeck : AppCompatActivity() {
                 return true
             }
             R.id.action_home -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 return true
@@ -117,13 +115,19 @@ class SelectedDeck : AppCompatActivity() {
 
                         // Update adapter with the new data
                         entryAdapter.updateData(entryModelArrayList)
+                        Toast.makeText(this@SelectedDeck, "Retrieved all entries!", Toast.LENGTH_SHORT).show()
                     } else {
-                        Log.d("API", "No Tables Received")
+                        Toast.makeText(this@SelectedDeck, "No entries! Start by adding entries", Toast.LENGTH_SHORT).show()
+                        Log.d("API", "No entries Received! ")
                     }
+                }else{
+                    Toast.makeText(this@SelectedDeck, "Error Receiving Entries!", Toast.LENGTH_SHORT).show()
+                    Log.e("API", "Error: {${response.errorBody()?.toString()}}")
                 }
             }
 
             override fun onFailure(call: Call<List<Map<String, Any>>>, t: Throwable) {
+                Toast.makeText(this@SelectedDeck, "Error Receiving Entries!", Toast.LENGTH_SHORT).show()
                 Log.e("API", "Failure: ${t.message}")
             }
         })

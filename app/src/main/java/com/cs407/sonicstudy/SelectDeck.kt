@@ -30,6 +30,8 @@ class SelectDeck: AppCompatActivity() {
                 deckText.text = matches[0]
                 selectedDeck = matches[0]
             }
+        }else{
+            Toast.makeText(this, "No result captured", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -41,7 +43,6 @@ class SelectDeck: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when (item.itemId){
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DecksHome::class.java)
                 startActivity(intent)
                 return true
@@ -57,7 +58,6 @@ class SelectDeck: AppCompatActivity() {
                 return true
             }
             R.id.action_home -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 return true
@@ -95,12 +95,15 @@ class SelectDeck: AppCompatActivity() {
                 if (response.isSuccessful) {
                     availableDecks.clear()
                     availableDecks.addAll(response.body() ?: emptyList())
+                    Toast.makeText(this@SelectDeck, "Retrieved all Decks!", Toast.LENGTH_SHORT).show()
                 } else {
+                    Toast.makeText(this@SelectDeck, "No Decks currently stored! Start by adding a Deck!", Toast.LENGTH_SHORT).show()
                     Log.e("API", "Failed to retrieve decks: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                Toast.makeText(this@SelectDeck, "Error Receiving Decks. Try Again!", Toast.LENGTH_SHORT).show()
                 Log.e("API", "Error: ${t.message}")
             }
         })

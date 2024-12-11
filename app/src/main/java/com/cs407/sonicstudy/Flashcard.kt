@@ -31,7 +31,6 @@ class Flashcard : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when (item.itemId){
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DecksHome::class.java)
                 startActivity(intent)
                 return true
@@ -47,7 +46,6 @@ class Flashcard : AppCompatActivity() {
                 return true
             }
             R.id.action_home -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 return true
@@ -114,6 +112,8 @@ class Flashcard : AppCompatActivity() {
                     } else {
                         Toast.makeText(this@Flashcard, "No study cards found!", Toast.LENGTH_SHORT).show()
                     }
+                } else{
+                    Toast.makeText(this@Flashcard, "Failed to load study cards! Try Again!", Toast.LENGTH_SHORT).show()
                 }
             }
 
