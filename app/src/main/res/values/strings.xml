@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SonicStudy</string>
-    <string name="decks">Decks</string>
+    <string name="decks">All Decks</string>
     <string name="settings">Settings</string>
     <string name="study">Study</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -96,4 +96,10 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="add_deck">Add a Deck!</string>
+    <string name="delete_deck">Delete a Deck!</string>
+    <string name="select_deck">!Select a Deck!</string>"
+    <string name="home_page">Home Page</string>
+    <string name="next_q">Next Question</string>
+    <string name="prev_q">Previous Question</string>"
 </resources>
