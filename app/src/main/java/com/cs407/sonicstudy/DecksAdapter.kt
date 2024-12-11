@@ -35,6 +35,12 @@ class DecksAdapter(private val context: Context, decksModelArrayList: ArrayList<
         }
     }
 
+    fun updateData(newDeckList: ArrayList<DeckModel>) {
+        decksModelArrayList.clear() // Clear old data
+        decksModelArrayList.addAll(newDeckList) // Add new data
+        notifyDataSetChanged() // Notify the adapter that data has changed
+    }
+
     // Constructor
     init {
         this.decksModelArrayList = decksModelArrayList
