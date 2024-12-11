@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,7 +55,15 @@ class DecksHome : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_decks_home)
 
-            val deckRV = findViewById<RecyclerView>(R.id.RVDecks)
+            val addButton = findViewById<ImageButton>(R.id.decks_home_addBtn)
+
+            addButton.setOnClickListener(){
+                val intent = Intent(this, AddTerm::class.java)
+                startActivity(intent)
+            }
+
+
+        val deckRV = findViewById<RecyclerView>(R.id.RVDecks)
             val tables: ArrayList<String> = ArrayList<String>()
 
             // Initialize the adapter here so we can update it later
