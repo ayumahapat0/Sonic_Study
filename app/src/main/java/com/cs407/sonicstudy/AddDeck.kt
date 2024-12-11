@@ -3,38 +3,56 @@ package com.cs407.sonicstudy
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatActivity.RESULT_OK
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class AddDeck : AppCompatActivity()  {
     private lateinit var deckText: TextView
     private lateinit var deck: String
     private var deckDone: Boolean = false
 
-//    private fun saveIntoDatabase() {
-//        if (deckDone) {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                try {
-//                    val columns = ArrayList<String>()
-//                    database.createTable(deck, columns, primaryKey = "String")
-//                    //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
-//                } catch (e: Exception) {
-//                    //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
-//                    //    .show()
-//                }
-//            }
-//        } else {
-//            Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+    private fun saveIntoDatabase() {
+        if (deckDone) {
+            val list: ArrayList<String> = ArrayList<String>()
+            list.add("id INT")
+            list.add("question TEXT NOT NULL")
+            list.add("answer TEXT NOT NULL")
+            list.add("id")
+
+
+            val request = DataModels.CreateTableRequest(deck, list, "id")
+
+            RetrofitClient.apiService.createTable(request)
+                .enqueue(object : Callback<DataModels.ApiResponse> {
+                    override fun onResponse(
+                        call: Call<DataModels.ApiResponse>,
+                        response: Response<DataModels.ApiResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.d("API", "Created Table Properly")
+                        }else{
+                            Log.e("API", "ERROR: ${response.errorBody()?.string()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<DataModels.ApiResponse>, t: Throwable) {
+                        Log.d("API", "Failure: ${t.message}")
+                    }
+
+                })
+        } else {
+            Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +63,9 @@ class AddDeck : AppCompatActivity()  {
 
         val saveButton = findViewById<Button>(R.id.saveBtn)
 
-//        saveButton.setOnClickListener {
-//        }
+        saveButton.setOnClickListener {
+            saveIntoDatabase()
+        }
 
         deckButton.setOnClickListener{ view: View? ->
             voiceInput()
@@ -78,6 +97,7 @@ class AddDeck : AppCompatActivity()  {
             val result = activityResult.data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             deckText.append(result!![0])
             deck = result[0]
+            deckDone = true
         }
     }
 }

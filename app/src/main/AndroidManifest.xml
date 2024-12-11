@@ -28,6 +28,7 @@
             android:label="@string/title_activity_decks_home" />
         <activity android:name=".AddTerm" />
         <activity android:name=".Settings" />
+        <activity android:name=".AddDeck"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
