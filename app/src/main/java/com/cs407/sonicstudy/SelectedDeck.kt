@@ -1,7 +1,10 @@
 package com.cs407.sonicstudy
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +15,34 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SelectedDeck : AppCompatActivity() {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the common menu.xml
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+        return when (item.itemId){
+            R.id.decks -> {
+                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, DecksHome::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.settings -> {
+//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Settings::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.study -> {
+                Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selected_deck)
