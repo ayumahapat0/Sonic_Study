@@ -18,36 +18,46 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class AddTerm : AppCompatActivity() {
-    private lateinit var termText: TextView
-    private lateinit var defText: TextView
+    private lateinit var termToModify: TextView
+    private lateinit var defToModify: TextView
     private lateinit var question: String
     private lateinit var answer: String
-    private lateinit var deck: String
+    private lateinit var deck : String
     private var termDone: Boolean = false
     private var defDone: Boolean = false
+
     private fun saveIntoDatabase() {
-//        if (termDone && defDone) {
-//            CoroutineScope(Dispatchers.IO).launch {
-//                try {
-//                    val database = Database()
-//                    database.insertData("history_deck", question, answer)
-//                    //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
-//                } catch (e: Exception) {
-//                    //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
-//                    //    .show()
-//                    e.printStackTrace()
-//                }
-//            }
-//            } else {
-//                Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT)
-//                    .show()
-//            }
+        if (!(question.isEmpty() || answer.isEmpty())){
+                val request = DataModels.InsertDataRequest(deck, question, answer)
+
+                RetrofitClient.apiService.insertData(request)
+                    .enqueue(object : Callback<DataModels.ApiResponse> {
+                        override fun onResponse(
+                            call: Call<DataModels.ApiResponse>,
+                            response: Response<DataModels.ApiResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("API", "Inserted Data properly")
+                            }else{
+                                Log.e("API", "ERROR: ${response.errorBody()?.string()}")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<DataModels.ApiResponse>, t: Throwable) {
+                            Log.d("API", "Failure: ${t.message}")
+                        }
+
+                    })
+        } else{
+            Toast.makeText(this, "question and answer not filled in yet!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,16 +66,45 @@ class AddTerm : AppCompatActivity() {
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+        return when (item.itemId){
+            R.id.decks -> {
+                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, DecksHome::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.settings -> {
+//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Settings::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.study -> {
+                Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            R.id.action_home -> {
+                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_term)
 
         val termButton = findViewById<Button>(R.id.termBtn)
-        termText = findViewById(R.id.term)
+        termToModify = findViewById(R.id.term)
+
+        deck = intent.getStringExtra("title").toString()
 
         val defButton = findViewById<Button>(R.id.defBtn)
-        defText = findViewById(R.id.definition)
-
+        defToModify = findViewById(R.id.definition)
         val saveButton = findViewById<Button>(R.id.saveBtn)
 
         saveButton.setOnClickListener {
@@ -81,54 +120,53 @@ class AddTerm : AppCompatActivity() {
         }
     }
 
-    private fun voiceInput(string: String){
-        val question = ""
-        val answer = ""
+    private fun voiceInput(string: String) {
         val language = "en"
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language)
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
-        if (string == "Term"){
-            try{
-                text.launch(intent)
-            }catch (e: Exception){
-                Toast.makeText(this, "" + e.message, Toast.LENGTH_SHORT).show()
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, language)
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
+        }
+        try {
+            when (string) {
+                "Term" -> textLauncher.launch(intent)
+                "Definition" -> definitionLauncher.launch(intent)
+            }
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e("ModifyDeleteTerm", "Error in voiceInput: ${e.message}", e)
+        }
+    }
+
+    private val textLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { activityResult ->
+        if (activityResult.resultCode == RESULT_OK) {
+            val result = activityResult.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            if (!result.isNullOrEmpty()) {
+                termToModify.text = result[0]
+                question = result[0]
+                termDone = true
+            } else {
+                Toast.makeText(this, "No result captured", Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
-        else if (string == "Definition"){
-            try{
-                definition.launch(intent)
-            }catch (e: Exception){
-                Toast.makeText(this, "" + e.message, Toast.LENGTH_SHORT).show()
+    private val definitionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { activityResult ->
+        if (activityResult.resultCode == RESULT_OK) {
+            val result = activityResult.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            if (!result.isNullOrEmpty()) {
+                defToModify.text = result[0]
+                answer = result[0]
+                defDone = true
+            } else {
+                Toast.makeText(this, "No result captured", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
-
-    private val text = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ){ activityResult ->
-        if (activityResult.resultCode == RESULT_OK){
-            val result = activityResult.data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            termText.append(result!![0])
-            question = result[0]
-            termDone = true
-        }
-    }
-
-    private val definition = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ){ activityResult ->
-        if (activityResult.resultCode == RESULT_OK){
-            val result = activityResult.data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            defText.append(result!![0])
-            answer = result[0]
-            defDone = true
-        }
-    }
-
 
 
 

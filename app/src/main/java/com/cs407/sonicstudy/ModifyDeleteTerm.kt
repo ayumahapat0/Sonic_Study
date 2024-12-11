@@ -2,47 +2,75 @@ package com.cs407.sonicstudy
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import android.speech.RecognizerIntent
+import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.cs407.sonicstudy.DataModels
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Log
-import android.view.Menu
+import android.view.MenuItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class ModifyDeleteTerm : AppCompatActivity() {
     private lateinit var termToModify: TextView
     private lateinit var defToModify: TextView
     private lateinit var question: String
     private lateinit var answer: String
+    private lateinit var deck : String
+    private lateinit var id : String
     private var termDone: Boolean = false
     private var defDone: Boolean = false
 
-    private fun saveIntoDatabase() {
-
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the common menu.xml
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+        return when (item.itemId){
+            R.id.decks -> {
+                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, DecksHome::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.settings -> {
+//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Settings::class.java)
+                startActivity(intent)
+                return true
+            }
+            R.id.study -> {
+                Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            R.id.action_home -> {
+                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_modify_delete)
+
+        deck = intent.getStringExtra("title").toString()
+        id = intent.getStringExtra("id").toString()
+
+        Log.d("API", deck)
+        Log.d("API", id)
 
         val modifyTermBtn = findViewById<Button>(R.id.modifyTermBtn)
         termToModify = findViewById(R.id.term_modify)
@@ -58,66 +86,109 @@ class ModifyDeleteTerm : AppCompatActivity() {
             saveIntoDatabase()
         }
 
-        deleteBtn.setOnClickListener{ view: View? ->
-
+        deleteBtn.setOnClickListener { view: View? ->
+            delete()
         }
 
-        modifyTermBtn.setOnClickListener{ view: View? ->
+        modifyTermBtn.setOnClickListener {
+            Log.d("ModifyDeleteTerm", "Modify Term button clicked")
             voiceInput("Term")
         }
 
-        modifyDefBtn.setOnClickListener{ view: View? ->
+        modifyDefBtn.setOnClickListener {
+            Log.d("ModifyDeleteTerm", "Modify Definition button clicked")
             voiceInput("Definition")
         }
     }
 
-    private fun voiceInput(string: String){
-        val question = ""
-        val answer = ""
+    private fun delete(){
+        val request = DataModels.DeleteDataRequest(deck, "id = $id")
+
+        RetrofitClient.apiService.deleteData(request).enqueue(object : Callback<DataModels.ApiResponse> {
+            override fun onResponse(
+                call: Call<DataModels.ApiResponse>,
+                response: Response<DataModels.ApiResponse>
+            ) {
+                if (response.isSuccessful){
+                    Log.d("API", "WOW IT DELETED IT!")
+                }
+            }
+
+            override fun onFailure(call: Call<DataModels.ApiResponse>, t: Throwable) {
+                Log.d("API", "Failure: ${t.message}")
+            }
+
+        })
+
+
+    }
+
+    private fun saveIntoDatabase() {
+        val request = DataModels.UpdateDataRequest(deck, question, answer, "id = $id")
+
+        RetrofitClient.apiService.updateData(request).enqueue(object : Callback<DataModels.ApiResponse> {
+            override fun onResponse(
+                call: Call<DataModels.ApiResponse>,
+                response: Response<DataModels.ApiResponse>
+            ) {
+                if (response.isSuccessful){
+                   Log.d("API", "WOW IT WORKS")
+                }
+            }
+
+            override fun onFailure(call: Call<DataModels.ApiResponse>, t: Throwable) {
+                Log.d("API", "Failure: ${t.message}")
+            }
+
+        })
+    }
+
+
+    private fun voiceInput(string: String) {
         val language = "en"
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, language)
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
-        if (string == "Term"){
-            try{
-                text.launch(intent)
-            }catch (e: Exception){
-                Toast.makeText(this, "" + e.message, Toast.LENGTH_SHORT).show()
-            }
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, language)
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
         }
-
-        else if (string == "Definition"){
-            try{
-                definition.launch(intent)
-            }catch (e: Exception){
-                Toast.makeText(this, "" + e.message, Toast.LENGTH_SHORT).show()
+        try {
+            when (string) {
+                "Term" -> textLauncher.launch(intent)
+                "Definition" -> definitionLauncher.launch(intent)
             }
-        }
-
-    }
-
-    private val text = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ){ activityResult ->
-        if (activityResult.resultCode == RESULT_OK){
-            val result = activityResult.data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            TODO("Not append, but overwrite")
-            termToModify.setText(result!![0])
-            question = result[0]
-            termDone = true
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e("ModifyDeleteTerm", "Error in voiceInput: ${e.message}", e)
         }
     }
 
-    private val definition = registerForActivityResult(
+    private val textLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
-    ){ activityResult ->
-        if (activityResult.resultCode == RESULT_OK){
-            val result = activityResult.data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            TODO("Not append, but overwrite")
-            defToModify.setText(result!![0])
-            answer = result[0]
-            defDone = true
+    ) { activityResult ->
+        if (activityResult.resultCode == RESULT_OK) {
+            val result = activityResult.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            if (!result.isNullOrEmpty()) {
+                termToModify.text = result[0]
+                question = result[0]
+                termDone = true
+            } else {
+                Toast.makeText(this, "No result captured", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private val definitionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { activityResult ->
+        if (activityResult.resultCode == RESULT_OK) {
+            val result = activityResult.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            if (!result.isNullOrEmpty()) {
+                defToModify.text = result[0]
+                answer = result[0]
+                defDone = true
+            } else {
+                Toast.makeText(this, "No result captured", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

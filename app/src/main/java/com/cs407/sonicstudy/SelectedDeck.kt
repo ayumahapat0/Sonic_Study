@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -54,6 +56,14 @@ class SelectedDeck : AppCompatActivity() {
 
         val deckTitle: String = intent.getStringExtra("SelectedDeck").toString()
 
+        val addButton = findViewById<ImageButton>(R.id.sel_decks_addBtn)
+
+        addButton.setOnClickListener(){
+            val intent = Intent(this, AddTerm::class.java)
+            intent.putExtra("title", deckTitle)
+            startActivity(intent)
+        }
+
         findViewById<TextView>(R.id.selected_deck_name).text = deckTitle
 
         val entryRV = findViewById<RecyclerView>(R.id.RVTerms)
@@ -65,7 +75,8 @@ class SelectedDeck : AppCompatActivity() {
             Toast.makeText(this, "Clicked on: ${clickedTerm.get_term()}", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(this, ModifyDeleteTerm::class.java)
-            intent.putExtra("ModifyDeleteTerm", clickedTerm.get_term())
+            intent.putExtra("title", deckTitle)
+            intent.putExtra("id", clickedTerm.get_id())
             startActivity(intent)
         }
 
@@ -97,9 +108,11 @@ class SelectedDeck : AppCompatActivity() {
                         for(row in data) {
                             val term = row.get("question")
                             val definition = row.get("answer")
-                            entryModelArrayList.add(EntryModel(term.toString(), definition.toString()))
+                            val id = row.get("id")
+                            entryModelArrayList.add(EntryModel(term.toString(), definition.toString(), id.toString()))
                             Log.d("API", "Row: ${row.get("question")}")
                             Log.d("API", "Row: ${row.get("answer")}")
+                            Log.d("API", "Row: ${row.get("id")}")
                         }
 
                         // Update adapter with the new data
