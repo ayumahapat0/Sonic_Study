@@ -105,8 +105,9 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
             R.id.study -> {
-                Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
-                return true
+                val intent = Intent(this, SelectDeck::class.java)
+                startActivity(intent)
+                true
             }
             R.id.action_home -> {
                 Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
