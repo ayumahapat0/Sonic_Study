@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity() {
                         tables.clear() // Clear any old data
                         tables.addAll(data) // Add new data from API
                         Log.d("API", "Tables Received: $tables")
-
                         // After receiving data, update the adapter
                         val deckModelArrayList = ArrayList<DeckModel>()
                         for (item in tables) {
@@ -73,13 +72,16 @@ class MainActivity : AppCompatActivity() {
 
                         // Update adapter with the new data
                         deckAdapter.updateData(deckModelArrayList)
+                        Toast.makeText(this@MainActivity, "Received Decks!", Toast.LENGTH_SHORT).show()
                     } else {
+                        Toast.makeText(this@MainActivity, "No Decks currently stored! Start By Adding a Deck!", Toast.LENGTH_SHORT).show()
                         Log.d("API", "No Tables Received")
                     }
                 }
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Error Receiving Decks. Try Again!", Toast.LENGTH_SHORT).show()
                 Log.e("API", "Error: ${t.message}")
             } })
 
@@ -93,13 +95,11 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when (item.itemId){
             R.id.decks -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, DecksHome::class.java)
                 startActivity(intent)
                 return true
             }
             R.id.settings -> {
-//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, Settings::class.java)
                 startActivity(intent)
                 return true
@@ -110,7 +110,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_home -> {
-                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 return true
