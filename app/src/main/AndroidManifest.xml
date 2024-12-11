@@ -31,6 +31,7 @@
         <activity android:name=".AddDeck"/>
         <activity android:name=".DeleteDeck"/>
         <activity android:name=".Flashcard"/>
+        <activity android:name=".SelectDeck"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
