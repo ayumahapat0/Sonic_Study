@@ -102,4 +102,8 @@
     <string name="home_page">Home Page</string>
     <string name="next_q">Next Question</string>
     <string name="prev_q">Previous Question</string>"
+    <string name="deck_name">Deck name</string>
+    <string name="speak_deck">Speak Deck Name</string>"
+    <string name="show_ans">Show Answer</string>
+    <string name="flashcard_text">Flashcard Text"</string>
 </resources>
