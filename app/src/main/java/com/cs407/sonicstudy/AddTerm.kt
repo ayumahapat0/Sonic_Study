@@ -10,10 +10,28 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.cs407.sonicstudy.Database
+import com.cs407.sonicstudy.DataModels
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import android.util.Log
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+object RetrofitClient {
+    private const val BASE_URL = "http://10.138.129.173:8080" // Replace with your server IP
+
+    val apiService: ApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+    }
+}
 
 class AddTerm : AppCompatActivity() {
     private lateinit var termText: TextView
@@ -24,22 +42,22 @@ class AddTerm : AppCompatActivity() {
     private var termDone: Boolean = false
     private var defDone: Boolean = false
     private fun saveIntoDatabase() {
-        if (termDone && defDone) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val database = Database()
-                    database.insertData("history_deck", question, answer)
-                    //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
-                } catch (e: Exception) {
-                    //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
-                    //    .show()
-                    e.printStackTrace()
-                }
-            }
-            } else {
-                Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT)
-                    .show()
-            }
+//        if (termDone && defDone) {
+//            CoroutineScope(Dispatchers.IO).launch {
+//                try {
+//                    val database = Database()
+//                    database.insertData("history_deck", question, answer)
+//                    //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
+//                } catch (e: Exception) {
+//                    //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
+//                    //    .show()
+//                    e.printStackTrace()
+//                }
+//            }
+//            } else {
+//                Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT)
+//                    .show()
+//            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
