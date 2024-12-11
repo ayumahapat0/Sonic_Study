@@ -46,7 +46,6 @@ class DecksHome : AppCompatActivity() {
                 return true
             }
             R.id.action_home -> {
-                Toast.makeText(this, "Decks Selected:", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 return true
@@ -101,13 +100,19 @@ class DecksHome : AppCompatActivity() {
                             deckModelArrayList.add(DeckModel(item))
                         }
                         deckAdapter.updateData(deckModelArrayList) // Update the RecyclerView adapter
+                        Toast.makeText(this@DecksHome, "Received Decks!", Toast.LENGTH_SHORT).show()
                     } else {
+                        Toast.makeText(this@DecksHome, "No Decks currently stored! Start by adding a Deck!", Toast.LENGTH_SHORT).show()
                         Log.d("API", "No Tables Received")
                     }
+                }else{
+                    Toast.makeText(this@DecksHome, "Error Receiving Decks. Try Again!", Toast.LENGTH_SHORT).show()
+                    Log.e("API", "Error: {${response.errorBody()?.toString()}}")
                 }
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                Toast.makeText(this@DecksHome, "Error Receiving Decks. Try Again!", Toast.LENGTH_SHORT).show()
                 Log.e("API", "Error: ${t.message}")
             }
         })
