@@ -41,11 +41,6 @@ class ModifyDeleteTerm : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-            R.id.settings -> {
-                val intent = Intent(this, Settings::class.java)
-                startActivity(intent)
-                return true
-            }
             R.id.study -> {
                 val intent = Intent(this, SelectDeck::class.java)
                 startActivity(intent)
