@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.appcompat.widget.Toolbar;
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,6 +92,12 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.study -> {
                 Toast.makeText(this, "Study selected", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            R.id.action_home -> {
+                Toast.makeText(this, "Decks Selected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
                 return true
             }
             else -> super.onOptionsItemSelected(item)
