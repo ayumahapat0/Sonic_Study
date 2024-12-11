@@ -8,19 +8,21 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:networkSecurityConfig="@xml/network_security"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SonicStudy"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".SelectedDeck"
+            android:exported="false" />
         <activity
             android:name=".DecksHome"
             android:exported="false"
-            android:label="@string/title_activity_decks_home"
-            android:theme="@style/Theme.SonicStudy.NoActionBar" />
+            android:label="@string/title_activity_decks_home" />
         <activity android:name=".AddTerm" />
         <activity android:name=".Settings" />
         <activity

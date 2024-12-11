@@ -17,6 +17,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Log
+import android.view.Menu
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +48,12 @@ class AddTerm : AppCompatActivity() {
 //                Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT)
 //                    .show()
 //            }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the common menu.xml
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
