@@ -19,23 +19,22 @@ class AddDeck : AppCompatActivity()  {
     private lateinit var deck: String
     private var deckDone: Boolean = false
 
-    private fun saveIntoDatabase() {
-        if (deckDone) {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val database = Database()
-                    val columns = ArrayList<String>()
-                    database.createTable(deck, columns, primaryKey = "String")
-                    //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
-                } catch (e: Exception) {
-                    //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
-                    //    .show()
-                }
-            }
-        } else {
-            Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    private fun saveIntoDatabase() {
+//        if (deckDone) {
+//            CoroutineScope(Dispatchers.IO).launch {
+//                try {
+//                    val columns = ArrayList<String>()
+//                    database.createTable(deck, columns, primaryKey = "String")
+//                    //Toast.makeText(this, "Data saved successfully!", Toast.LENGTH_SHORT).show()
+//                } catch (e: Exception) {
+//                    //Toast.makeText(this, "Failed to save data: ${e.message}", Toast.LENGTH_SHORT)
+//                    //    .show()
+//                }
+//            }
+//        } else {
+//            Toast.makeText(this, "Please provide both term and definition!", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +45,8 @@ class AddDeck : AppCompatActivity()  {
 
         val saveButton = findViewById<Button>(R.id.saveBtn)
 
-        saveButton.setOnClickListener {
-            saveIntoDatabase()
-        }
+//        saveButton.setOnClickListener {
+//        }
 
         deckButton.setOnClickListener{ view: View? ->
             voiceInput()
