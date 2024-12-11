@@ -58,7 +58,7 @@ class DecksHome : AppCompatActivity() {
             val addButton = findViewById<ImageButton>(R.id.decks_home_addBtn)
 
             addButton.setOnClickListener(){
-                val intent = Intent(this, AddTerm::class.java)
+                val intent = Intent(this, AddDeck::class.java)
                 startActivity(intent)
             }
 

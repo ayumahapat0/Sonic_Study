@@ -56,6 +56,13 @@ class SelectedDeck : AppCompatActivity() {
 
         val deckTitle: String = intent.getStringExtra("SelectedDeck").toString()
 
+        val addButton = findViewById<ImageButton>(R.id.sel_decks_addBtn)
+
+        addButton.setOnClickListener(){
+            val intent = Intent(this, AddTerm::class.java)
+            intent.putExtra("title", deckTitle)
+            startActivity(intent)
+        }
 
         findViewById<TextView>(R.id.selected_deck_name).text = deckTitle
 
