@@ -45,6 +45,7 @@ class AddTerm : AppCompatActivity() {
                         ) {
                             if (response.isSuccessful) {
                                 Log.d("API", "Inserted Data properly")
+                                Toast.makeText(this@AddTerm, "Entry has been added!", Toast.LENGTH_SHORT).show()
                             }else{
                                 Log.e("API", "ERROR: ${response.errorBody()?.string()}")
                             }
