@@ -56,12 +56,16 @@ class DecksHome : AppCompatActivity() {
             setContentView(R.layout.activity_decks_home)
 
             val addButton = findViewById<ImageButton>(R.id.decks_home_addBtn)
+            val delButton = findViewById<ImageButton>(R.id.decks_home_delBtn)
 
             addButton.setOnClickListener(){
                 val intent = Intent(this, AddDeck::class.java)
                 startActivity(intent)
             }
 
+            delButton.setOnClickListener() {
+
+            }
 
         val deckRV = findViewById<RecyclerView>(R.id.RVDecks)
             val tables: ArrayList<String> = ArrayList<String>()
