@@ -1,11 +1,11 @@
 package com.cs407.sonicstudy
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
+import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -26,9 +26,13 @@ object RetrofitClient {
     }
 }
 
-typealias DatabaseRow = Map<String, Any>
-
 class DecksHome : AppCompatActivity() {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the common menu.xml
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_decks_home)
@@ -37,7 +41,13 @@ class DecksHome : AppCompatActivity() {
             val tables: ArrayList<String> = ArrayList<String>()
 
             // Initialize the adapter here so we can update it later
-            val deckAdapter = DecksAdapter(this, ArrayList())
+            val deckAdapter = DecksAdapter(this, ArrayList()) { clickedDeck ->
+                Toast.makeText(this, "Clicked on: ${clickedDeck.get_deck_name()}", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, SelectedDeck::class.java)
+                intent.putExtra("SelectedDeck", clickedDeck.get_deck_name())
+                startActivity(intent)
+            }
 
             // Set up RecyclerView with LayoutManager and empty adapter first
             val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

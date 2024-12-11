@@ -5,23 +5,30 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DecksHome">
+    tools:context=".SelectedDeck">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ScrollView
-            android:id="@+id/decks_scroll"
+        <TextView
+            android:id="@+id/selected_deck_name"
             android:layout_width="match_parent"
-            android:layout_height="591dp">
+            android:layout_height="68dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="36sp"
+            android:textStyle="bold"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="497dp">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RVDecks"
+                android:id="@+id/RVTerms"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
+                android:layout_height="wrap_content" />
         </ScrollView>
 
         <LinearLayout
@@ -30,14 +37,14 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/decks_home_addBtn"
-                android:layout_width="69dp"
+                android:id="@+id/sel_decks_addBtn"
+                android:layout_width="78dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@android:drawable/ic_menu_add" />
 
             <ImageButton
-                android:id="@+id/decks_home_delBtn"
+                android:id="@+id/sel_deck_delBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -45,4 +52,5 @@
         </LinearLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

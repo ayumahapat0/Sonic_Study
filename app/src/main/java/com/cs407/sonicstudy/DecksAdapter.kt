@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class DecksAdapter(private val context: Context, decksModelArrayList: ArrayList<DeckModel>) :
-    RecyclerView.Adapter<DecksAdapter.ViewHolder>() {
+class DecksAdapter(
+    private val context: Context,
+    decksModelArrayList: ArrayList<DeckModel>,
+    private val itemClickListener: (DeckModel) -> Unit
+) : RecyclerView.Adapter<DecksAdapter.ViewHolder>() {
+
     private val decksModelArrayList: ArrayList<DeckModel>
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DecksAdapter.ViewHolder {
         // to inflate the layout for each item of recycler view.
@@ -28,10 +32,14 @@ class DecksAdapter(private val context: Context, decksModelArrayList: ArrayList<
     }
 
     // View holder class for initializing of your views such as TextView.
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val deckName: TextView
         init {
             deckName = itemView.findViewById(R.id.deckName)
+            itemView.setOnClickListener {
+                val clickedDeck = decksModelArrayList[adapterPosition]
+                itemClickListener(clickedDeck)
+            }
         }
     }
 
