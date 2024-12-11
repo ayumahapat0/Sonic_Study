@@ -17,23 +17,18 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class AddDeck : AppCompatActivity()  {
+class DeleteDeck : AppCompatActivity()  {
     private lateinit var deckText: TextView
     private lateinit var deck: String
     private var deckDone: Boolean = false
 
-    private fun saveIntoDatabase() {
+    private fun deleteFromDatabase() {
         if (deckDone) {
-            val list: ArrayList<String> = ArrayList<String>()
-            list.add("id INT")
-            list.add("question TEXT NOT NULL")
-            list.add("answer TEXT NOT NULL")
-            list.add("id")
 
 
-            val request = DataModels.CreateTableRequest(deck, list, "id")
+            val request = DataModels.DeleteTableRequest(deck)
 
-            RetrofitClient.apiService.createTable(request)
+            RetrofitClient.apiService.deleteTable(request)
                 .enqueue(object : Callback<DataModels.ApiResponse> {
                     override fun onResponse(
                         call: Call<DataModels.ApiResponse>,
@@ -91,15 +86,15 @@ class AddDeck : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.add_deck)
+        setContentView(R.layout.delete_deck)
 
-        val deckButton = findViewById<Button>(R.id.deckBtn)
-        deckText = findViewById(R.id.Deck)
+        val deckButton = findViewById<Button>(R.id.deleteDeckBtn)
+        deckText = findViewById(R.id.deleteDeck)
 
         val saveButton = findViewById<Button>(R.id.saveBtn)
 
         saveButton.setOnClickListener {
-            saveIntoDatabase()
+            deleteFromDatabase()
         }
 
         deckButton.setOnClickListener{ view: View? ->

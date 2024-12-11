@@ -24,5 +24,5 @@ interface ApiService {
     fun retrieveTables(): Call<List<String>>
 
     @POST("/delete_table")
-    fun deleteTable(@Body request: Map<String, String>): Call<DataModels.ApiResponse>
+    fun deleteTable(@Body request: DataModels.DeleteTableRequest): Call<DataModels.ApiResponse>
 }
