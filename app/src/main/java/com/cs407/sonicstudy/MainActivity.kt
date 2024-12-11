@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
             R.id.study -> {
                 val intent = Intent(this, SelectDeck::class.java)
                 startActivity(intent)
-                true
+                return true
             }
             R.id.action_home -> {
                 val intent = Intent(this, MainActivity::class.java)
